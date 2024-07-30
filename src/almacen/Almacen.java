@@ -44,6 +44,7 @@ public class Almacen {
         Iterator<Cell> cellIterator = nextRow.cellIterator();
         while (cellIterator.hasNext()) {
           Cell cell = cellIterator.next();
+          String str = formatter.formatCellValue(cell);
           
      //desde la columna cero hasta la columna 3 no se toma en cuenta   
           if (cell.getColumnIndex() < 4)
@@ -73,7 +74,6 @@ public class Almacen {
                       
    //se valida la columna 5 ( INVSN )  DONDE ESTA EL IPTV !!!!!!!!!!!!!
           if (cell.getColumnIndex() == 5) {
-            String str = formatter.formatCellValue(cell);
             //si no tiene letras o caracter raro
             if (!str.matches("[a-zAZ0-Z0-9]*")) {
               sap_especial=false;
@@ -84,13 +84,12 @@ public class Almacen {
               serie_equipo = str.substring(2, str.length());
               continue;
             } 
-            serie_equipo = formatter.formatCellValue(cell);
+            serie_equipo = str;
             continue;
           } 
           
    // se valida columna 6 (XI_MTA_MAC_CM) ( si es iptv la columna anterior y esta esta vacia lo copiamos de la columna 8 creo)
           if (cell.getColumnIndex() == 6) {
-            String str = formatter.formatCellValue(cell);
             str= str.replace("Ñ", "");
             str= str.replace(":","");
             if (!str.matches("[a-zA-Z0-9]*")) {
@@ -103,19 +102,17 @@ public class Almacen {
           
     //se valida la columna 7  (XI_MTA_MAC )    
           if (cell.getColumnIndex() == 7) {
-            String str = formatter.formatCellValue(cell);
             if (!str.matches("[a-zA-Z0-9]*")) {
               sap_especial=false;
               break;
             } 
-            MTA_MAC = formatter.formatCellValue(cell);
+            MTA_MAC = str;
             continue;
           } 
           
   //se valida la columna 8  ( XI_UNIT_ADDR )  tenia valores con ñ que deben editarse
   
           if (cell.getColumnIndex() == 8) {
-            String str = formatter.formatCellValue(cell);
            /* if (!str.matches("[a-zA-Z0-9]*")) {
               sap_especial=false;
               break;
